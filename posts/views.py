@@ -14,8 +14,12 @@ class PostList(ListView):
 
 class PostCreate(CreateView):
     model = Post
-    fields = ['image', 'description', 'author']
+    fields = ['image', 'description']
     success_url = '/'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class CommentForm(forms.Form):
